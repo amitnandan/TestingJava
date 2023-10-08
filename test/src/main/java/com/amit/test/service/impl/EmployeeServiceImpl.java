@@ -7,6 +7,7 @@ import com.amit.test.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -28,5 +29,34 @@ public class EmployeeServiceImpl implements EmployeeService {
                 throw new ResourceNotFoundException("employee already exist with given email:"+employee.getEmail());
 
         return employeeRepository.save(employee);
+    }
+
+    @Override
+    public List<Employee> getAllEmployee() {
+
+        return employeeRepository.findAll();
+
+        
+
+    }
+
+    @Override
+    public Optional<Employee> getEmployeeById(long employeeId) {
+
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+
+        if(!employee.isPresent())
+            throw new ResourceNotFoundException("Employee with given id not present"+employeeId);
+        return employee;
+    }
+
+    @Override
+    public Employee updateEmployee(Employee updatedEmployee) {
+        return employeeRepository.save(updatedEmployee);
+    }
+
+    @Override
+    public void deleteEmployee(long employeeId) {
+        employeeRepository.deleteById(employeeId);
     }
 }
